@@ -1,0 +1,3 @@
+rootProject.name = "CameraMotionTracker"
+include ':app'
+include ':openCVLibrary455'
