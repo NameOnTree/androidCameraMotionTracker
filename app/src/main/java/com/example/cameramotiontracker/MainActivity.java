@@ -51,9 +51,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     // tensorFlow lite setting
-    final static String MODEL_FILENAME = "lite-model_movenet_singlepose_lightning_tflite_int8_4.tflite";
+    //final static String MODEL_FILENAME = "lite-model_movenet_singlepose_lightning_tflite_int8_4.tflite";
+    final static String MODEL_FILENAME = "lite-model_movenet_singlepose_thunder_tflite_float16_4.tflite";
     //final static String MODEL_FILENAME = "lite-model_movenet_singlepose_lightning_3.tflite";
-    final static org.opencv.core.Size MODEL_IMAGE_SIZE = new org.opencv.core.Size(192, 192);
+    final static org.opencv.core.Size MODEL_IMAGE_SIZE = new org.opencv.core.Size(256, 256);
 
     final static int EXECUTOR_THREADS = 2;
     final static int CAMERA_PIXEL_FORMAT = ImageFormat.YUV_420_888;
@@ -131,9 +132,9 @@ public class MainActivity extends AppCompatActivity {
 
                     double[][] bodyKeypoint = mPoseEstimator.runInference(mat);
 
-                    cTime = System.currentTimeMillis();
-                    Log.i(TAG, "Time consumed after inference in milli seconds : " + (cTime - ppTime));
-                    ppTime = cTime;
+//                    cTime = System.currentTimeMillis();
+//                    Log.i(TAG, "Time consumed after inference in milli seconds : " + (cTime - ppTime));
+//                    ppTime = cTime;
 //                    mat = mPoseEstimator.runInferenceTest(mat);
 //                    Bitmap overlay = Bitmap.createBitmap(192, 192, Bitmap.Config.ARGB_8888);
 //                    Utils.matToBitmap(mat, overlay);
@@ -154,8 +155,8 @@ public class MainActivity extends AppCompatActivity {
                     canvas.drawRect(new Rect(1, 1, mCameraTextureViewSize.getWidth() - 1, Math.round(mCameraTextureViewSize.getHeight() * mCameraTextureViewRatioScale) - 1), paint);
 //                        canvas.drawRect(500, 500, 600, 600, paint);
 
-                    cTime = System.currentTimeMillis();
-                    Log.i(TAG, "Time consumed for drawing in milli seconds : " + (cTime - ppTime));
+//                    cTime = System.currentTimeMillis();
+//                    Log.i(TAG, "Time consumed for drawing in milli seconds : " + (cTime - ppTime));
 
                     runOnUiThread(() -> {
                         mKeypointImageView.setImageBitmap(overlay);

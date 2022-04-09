@@ -76,9 +76,10 @@ public class PoseEstimator {
 //            // if the GPU is not supported, run on 4 threads
 //            options.setNumThreads(4);
 //        }
-        GpuDelegate gpuDelegate = new GpuDelegate();
-        options.addDelegate(gpuDelegate);
+//        GpuDelegate gpuDelegate = new GpuDelegate();
+//        options.addDelegate(gpuDelegate);
 
+        options.setNumThreads(4);
         try {
             mTensorflowLiteInterpreter = new Interpreter(loadModelFileFromAsset(context, filename), options);
         } catch (IOException e) {

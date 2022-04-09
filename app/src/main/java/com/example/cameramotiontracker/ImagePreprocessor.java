@@ -2,6 +2,7 @@ package com.example.cameramotiontracker;
 
 import android.graphics.Bitmap;
 import android.media.Image;
+import android.util.Log;
 
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
@@ -23,6 +24,8 @@ import java.util.List;
  */
 public class ImagePreprocessor {
 
+    private static final String TAG = "ImagePreprocessor";
+
     /**
      * Converts Android Image object into OpenCV Mat Object
      * This method ASSUMES "YUV_420_888" Image object as a parameter
@@ -31,6 +34,11 @@ public class ImagePreprocessor {
      * @return Mat object
      */
     public static Mat getOpenCVMat(Image img) {
+        // for debugging purpose, add execution time
+        long cTime = System.currentTimeMillis();
+        long ppTime = cTime;
+
+
         Mat mat = null;
         int[] argb = null;
 
@@ -39,11 +47,22 @@ public class ImagePreprocessor {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        cTime = System.currentTimeMillis();
+        Log.i(TAG, "Time consumed for preprocessing (converting yuv to argb) in milli seconds : " + (cTime - ppTime));
+        ppTime = cTime;
+
         // each 32 bit integer of argb array is made of a byte of each channels in ARGB
         // Need to split them into bytes using ByteBuffer Trick
         ByteBuffer byteBuffer = ByteBuffer.allocateDirect(argb.length*4);
         IntBuffer intBuffer = byteBuffer.asIntBuffer();
+
         intBuffer.put(argb);
+
+        cTime = System.currentTimeMillis();
+        Log.i(TAG, "Time consumed for preprocessing (creating buffer + putting argb image into buffer) in milli seconds : " + (cTime - ppTime));
+        ppTime = cTime;
+
         // create an empty byte array to store image data from argb
         byte[] imageByte = new byte[byteBuffer.capacity()];
         byteBuffer.order(ByteOrder.nativeOrder()).get(imageByte);
